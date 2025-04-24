@@ -4,7 +4,7 @@ A modern, feature-rich course player web application built with React that provi
 
 ## 🚀 Live Demo
 
-Visit the live application: [Course Player Demo](https://course-player-page.vercel.app/)
+Visit the live application: [Course Player Demo](https://taskcourseplayeref.vercel.app/)
 
 ## ✨ Features
 
