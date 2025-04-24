@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkcourse_player_page=self.webpackChunkcourse_player_page||[]).push([[818],{207:(e,a,c)=>{c.r(a),c.d(a,{default:()=>t});const s=c.p+"static/media/course cover.a50ad5a3b08ce5d31925.png",r=c.p+"static/media/preview.2f643f536886ca4e582c.mp4";var p=c(579);function t(){return(0,p.jsx)("video",{src:r,className:"coursevideo",controls:!0,poster:s,preload:"metadata"})}}}]);
+//# sourceMappingURL=818.e5a2b8a1.chunk.js.map

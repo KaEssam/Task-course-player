@@ -1,0 +1,1217 @@
+/* YouTube-style player CSS */
+.youtube-player-container {
+  position: relative;
+  width: 100%;
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.youtube-player-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  border-radius: 0;
+}
+
+.youtube-player-container.widemode {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: auto;
+  z-index: 9990;
+  border-radius: 0;
+}
+
+.player-aspect-ratio-container {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  background-color: #000;
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Custom Controls */
+.youtube-controls-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    transparent 20%,
+    transparent 80%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.youtube-controls-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Progress bar */
+.progress-bar-container {
+  position: relative;
+  height: 5px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: height 0.2s ease;
+  margin: 0;
+  pointer-events: auto;
+}
+
+.progress-bar-container:hover {
+  height: 8px;
+}
+
+.progress-bar-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.progress-bar-loaded {
+  position: absolute;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: width 0.1s ease;
+}
+
+.progress-bar-played {
+  position: absolute;
+  height: 100%;
+  background-color: #ff0000;
+  transition: width 0.1s ease;
+}
+
+.progress-handle {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.progress-bar-container:hover .progress-handle {
+  opacity: 1;
+}
+
+/* Timestamp markers */
+.timestamp-markers {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.timestamp-marker {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Controls layout */
+.top-controls,
+.bottom-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  pointer-events: auto;
+}
+
+.bottom-controls {
+  position: relative;
+  z-index: 2;
+}
+
+.left-controls,
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Control buttons */
+.control-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  position: relative;
+}
+
+.control-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.play-pause-button {
+  font-size: 24px;
+}
+
+/* Tooltips */
+.control-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(28, 28, 28, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  margin-bottom: 8px;
+}
+
+.control-button:hover .control-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Volume control */
+.volume-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.volume-slider-container {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.volume-container:hover .volume-slider-container {
+  width: 80px;
+}
+
+.volume-slider {
+  width: 80px;
+  margin: 0 8px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Time display */
+.time-display {
+  color: white;
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.time-separator {
+  opacity: 0.7;
+}
+
+/* Playback rate dropdown */
+.playback-rate-dropdown {
+  position: relative;
+  margin-right: 8px;
+}
+
+.playback-rate-button {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.playback-rate-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.playback-rate-menu {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background-color: rgba(28, 28, 28, 0.9);
+  border-radius: 4px;
+  padding: 4px 0;
+  margin-bottom: 8px;
+  display: none;
+  flex-direction: column;
+  width: 80px;
+}
+
+.playback-rate-dropdown:hover .playback-rate-menu {
+  display: flex;
+}
+
+.playback-rate-option {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+}
+
+.playback-rate-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.playback-rate-option.active {
+  color: #ff0000;
+}
+
+/* Buffering indicator */
+.buffering-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 4;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Big play button overlay */
+.play-button-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.big-play-button {
+  width: 68px;
+  height: 48px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.big-play-button:hover {
+  background-color: #ff0000;
+}
+
+/* Watched badge */
+.watched-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: rgba(0, 128, 0, 0.7);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+/* Keyboard shortcuts tooltip */
+.keyboard-shortcuts-tooltip {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: rgba(28, 28, 28, 0.9);
+  border-radius: 4px;
+  padding: 12px;
+  color: white;
+  font-size: 13px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.youtube-player-container:focus .keyboard-shortcuts-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.keyboard-shortcut-item {
+  margin-bottom: 4px;
+}
+
+.keyboard-shortcut-item:last-child {
+  margin-bottom: 0;
+}
+
+.key {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin: 0 2px;
+  font-family: monospace;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .volume-container:hover .volume-slider-container {
+    width: 60px;
+  }
+
+  .volume-slider {
+    width: 60px;
+  }
+
+  .control-button {
+    font-size: 18px;
+    padding: 4px;
+  }
+
+  .time-display {
+    font-size: 12px;
+  }
+
+  .playback-rate-button {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .right-controls {
+    display: none;
+  }
+
+  .bottom-controls {
+    justify-content: center;
+  }
+}
+
+/* Udemy-style player CSS */
+.udemy-player-container {
+  position: relative;
+  width: 100%;
+  background-color: #000;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.udemy-player-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  border-radius: 0;
+}
+
+.udemy-player-container.theater-mode {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: auto;
+  z-index: 9990;
+  border-radius: 0;
+}
+
+.player-aspect-ratio-container {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  background-color: #000;
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Custom Controls */
+.udemy-controls-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 20%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.udemy-controls-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Progress bar */
+.progress-container {
+  position: relative;
+  height: 16px;
+  cursor: pointer;
+  margin: 0 12px;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar {
+  position: relative;
+  height: 3px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  transition: height 0.2s ease;
+}
+
+.progress-container:hover .progress-bar {
+  height: 5px;
+}
+
+.progress-loaded {
+  position: absolute;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.progress-played {
+  position: absolute;
+  height: 100%;
+  background-color: #5624d0; /* Udemy's purple color */
+  border-radius: 3px;
+}
+
+.progress-handle {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.progress-container:hover .progress-handle {
+  opacity: 1;
+}
+
+.progress-tooltip {
+  position: absolute;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.progress-container:hover .progress-tooltip {
+  opacity: 1;
+}
+
+/* Speed control with dropdown */
+.speed-control {
+  position: relative;
+  margin-right: 10px;
+  z-index: 10;
+}
+
+.speed-control-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 4px 8px;
+  height: 32px;
+  font-size: 13px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+}
+
+.speed-control-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.speed-options-dropdown {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 3px;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 80px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.speed-option {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+}
+
+.speed-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.speed-option.active {
+  color: #5624d0; /* Udemy purple */
+  font-weight: 600;
+}
+
+/* Controls layout */
+.control-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px 16px;
+  width: 100%;
+}
+
+.left-controls,
+.right-controls,
+.center-controls {
+  display: flex;
+  align-items: center;
+}
+
+.left-controls,
+.right-controls {
+  flex: 1;
+}
+
+.center-controls {
+  justify-content: center;
+  flex: 2;
+}
+
+.right-controls {
+  justify-content: flex-end;
+}
+
+/* Control buttons */
+.control-button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  margin: 0 6px;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 4px;
+  height: 36px;
+  width: 36px;
+}
+
+.control-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-button.play-button {
+  font-size: 22px;
+}
+
+.control-button.active {
+  color: #5624d0; /* Udemy's purple color */
+}
+
+/* Volume control */
+.volume-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 36px;
+  margin-right: 8px;
+}
+
+.volume-slider-container {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.volume-container:hover .volume-slider-container {
+  width: 80px;
+}
+
+.volume-slider {
+  width: 80px;
+  margin: 0 8px;
+  height: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+/* Time display */
+.time-display {
+  color: white;
+  font-size: 13px;
+  margin: 0 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+.time-separator {
+  opacity: 0.7;
+  margin: 0 2px;
+}
+
+/* Playback rate control */
+.playback-rate-control {
+  position: relative;
+  margin-right: 10px;
+  min-width: 48px;
+  text-align: center;
+}
+
+.playback-rate-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 0 6px;
+  height: 28px;
+  font-size: 13px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playback-rate-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.playback-rate-button .speedx {
+  opacity: 0.8;
+  margin-left: 1px;
+  font-size: 11px;
+}
+
+.playback-rate-menu {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(28, 28, 28, 0.9);
+  border-radius: 2px;
+  padding: 8px 0;
+  display: none;
+  flex-direction: column;
+  min-width: 70px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.playback-rate-control:hover .playback-rate-menu {
+  display: flex;
+}
+
+.playback-rate-option {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.playback-rate-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.playback-rate-option.active {
+  color: #5624d0; /* Udemy's purple color */
+  font-weight: 600;
+}
+
+/* Forward/Backward buttons */
+.forward-backward-container {
+  display: flex;
+  align-items: center;
+}
+
+.forward-backward-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  color: #fff;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+}
+
+.forward-backward-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.forward-backward-label {
+  position: absolute;
+  font-size: 10px;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+/* Subtitle and settings controls */
+.subtitle-settings-container {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+/* Subtitle button */
+.subtitle-button {
+  color: #fff;
+  opacity: 0.8;
+  margin-right: 8px;
+}
+
+.subtitle-button.active {
+  color: #5624d0; /* Udemy's purple color */
+  opacity: 1;
+}
+
+/* Settings button with animation */
+.settings-button {
+  transition: transform 0.3s ease;
+}
+
+.settings-button:hover {
+  transform: rotate(30deg);
+}
+
+/* Auto-hide tooltip */
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  pointer-events: none;
+  margin-bottom: 8px;
+}
+
+.control-button:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Video title and chapter info */
+.video-info-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    transparent 100%
+  );
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.udemy-controls-overlay.visible .video-info-bar {
+  opacity: 1;
+}
+
+.video-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.video-chapter {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* Completed indicator */
+.completed-indicator {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 6;
+}
+
+.completed-indicator i {
+  color: #5cb85c;
+}
+
+/* Buffering indicator */
+.buffering-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 4;
+}
+
+.buffering-spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #5624d0; /* Udemy's purple color */
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Big play button overlay */
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 3;
+  cursor: pointer;
+}
+
+.big-play-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.2s;
+  color: white;
+  font-size: 32px;
+  border: 2px solid white;
+}
+
+.play-overlay:hover .big-play-button {
+  background-color: #5624d0; /* Udemy's purple color */
+  transform: scale(1.05);
+}
+
+/* Next lecture button (appears near the end of video) */
+.next-lecture-button {
+  position: absolute;
+  bottom: 70px;
+  right: 20px;
+  background-color: #5624d0; /* Udemy's purple color */
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 7;
+  border: none;
+}
+
+.next-lecture-button.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.next-lecture-button:hover {
+  background-color: #401b9c; /* Darker purple */
+}
+
+/* Keyboard shortcuts help panel */
+.keyboard-shortcuts-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  padding: 20px;
+  color: white;
+  z-index: 10;
+  min-width: 300px;
+  max-width: 400px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.keyboard-shortcuts-panel.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.keyboard-shortcuts-panel h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.shortcut-group {
+  margin-bottom: 16px;
+}
+
+.shortcut-group-title {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.shortcut-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.shortcut-keys {
+  display: flex;
+  align-items: center;
+}
+
+.key {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-right: 4px;
+  font-size: 12px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.shortcut-description {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.close-shortcuts-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: white;
+  opacity: 0.7;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.close-shortcuts-button:hover {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .center-controls {
+    display: none;
+  }
+
+  .time-display {
+    font-size: 12px;
+    margin: 0 6px;
+  }
+
+  .control-button {
+    margin: 0 4px;
+  }
+
+  .subtitle-settings-container {
+    margin-right: 4px;
+  }
+
+  .volume-container:hover .volume-slider-container {
+    width: 60px;
+  }
+
+  .volume-slider {
+    width: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .playback-rate-control {
+    display: none;
+  }
+
+  .subtitle-button {
+    display: none;
+  }
+
+  .video-info-bar {
+    padding: 12px;
+  }
+
+  .video-title {
+    font-size: 14px;
+  }
+
+  .video-chapter {
+    font-size: 12px;
+  }
+}
